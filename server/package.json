@@ -1,0 +1,22 @@
+{
+  "name": "template-fullstack-angular-api",
+  "version": "0.1.0",
+  "description": "Onklave template: Express + node-postgres API. Every route is mounted under /api.",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "lint": "node --check src/app.js && node --check src/db.js && node --check src/server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
+  }
+}

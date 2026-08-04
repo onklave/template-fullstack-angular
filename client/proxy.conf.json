@@ -1,0 +1,10 @@
+{
+  "//": "DEV ONLY. Used by `ng serve` so the dev server on :4200 can reach the API on :8080.",
+  "//2": "Production needs nothing like this: Onklave routes / and /api to two workloads behind ONE host, so the browser calls /api same-origin.",
+  "//3": "Note there is no pathRewrite. The platform does not strip the route prefix either, so the API really does serve /api/... in both dev and prod.",
+  "/api": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "changeOrigin": false
+  }
+}

@@ -1,0 +1,53 @@
+# Onklave deploy manifest — the ONLY deployment contract for this repo.
+#
+# The platform reads THIS file. It clones the repo, builds each service's image
+# in-cluster from that service's own build context and Dockerfile, runs the
+# tests, then renders a Deployment, Service and Ingress rule per service.
+#
+# GitHub Actions is NOT used and NOT consulted. There is deliberately no
+# .github/ directory here: a workflow file cannot declare a service, and the
+# platform's credential cannot push one.
+#
+# This repo has TWO services. They are built and deployed SEPARATELY — separate
+# images, separate rollouts, separate scaling — and are joined at request time
+# by `expose.path` on ONE host:
+#
+#   https://<app-host>/      -> web  (Angular static bundle, port 3000)
+#   https://<app-host>/api   -> api  (Express + PostgreSQL, port 8080)
+#
+# Because they share a host, the browser calls the API same-origin. There is no
+# CORS config anywhere in this repo and none is needed.
+#
+# The route prefix is NOT stripped before it reaches the container, so `api`
+# serves real `/api/...` paths — hence healthPath: /api/healthz.
+#
+# Exactly one service may claim `/`. To add a third (say a worker with no
+# ingress), append another entry with expose.enabled: false.
+version: 1
+services:
+  - name: web
+    build:
+      context: client
+      dockerfile: client/Dockerfile
+    runtime:
+      port: 3000
+      healthPath: /health
+    expose:
+      enabled: true
+      path: /
+    # No `env` block: this service's output ships to the browser, so anything
+    # injected here would be public. DATABASE_URL belongs to `api` alone.
+  - name: api
+    build:
+      context: server
+      dockerfile: server/Dockerfile
+    runtime:
+      port: 8080
+      healthPath: /api/healthz
+    expose:
+      enabled: true
+      path: /api
+    env:
+      - name: DATABASE_URL
+        required: true
+        secret: true

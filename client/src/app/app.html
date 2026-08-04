@@ -1,0 +1,28 @@
+<main class="page">
+  <h1>Items</h1>
+  <p class="lede">
+    This page is served by the <code>web</code> service. The list below comes from the
+    <code>api</code> service over a same-origin call to <code>/api/items</code>, backed by
+    PostgreSQL.
+  </p>
+
+  <form (submit)="add(nameInput.value); nameInput.value = ''; $event.preventDefault()">
+    <input #nameInput name="name" placeholder="Add an item" aria-label="Item name" />
+    <button type="submit" [disabled]="busy()">Add</button>
+  </form>
+
+  @if (error(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  <ul>
+    @for (row of rows(); track row.id) {
+      <li>
+        <span>{{ row.name }}</span>
+        <time [attr.datetime]="row.createdAt">{{ row.createdAt }}</time>
+      </li>
+    } @empty {
+      <li class="empty">No items yet.</li>
+    }
+  </ul>
+</main>

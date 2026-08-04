@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build / cache output
+dist/
+.angular/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment and key material — never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# OS / editor cruft
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,20 @@
+# Secrets and key material must never enter a build context.
+.env
+.env.*
+*.pem
+*.key
+
+# Never copy the host's install or build output into the image.
+node_modules
+dist
+.angular
+
+# Repo/tooling noise.
+.git
+.gitignore
+.dockerignore
+Dockerfile
+README.md
+.onklave
+npm-debug.log*
+.DS_Store
