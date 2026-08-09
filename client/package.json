@@ -17,6 +17,7 @@
     "node": ">=22.22.3"
   },
   "dependencies": {
+    "@onklave/errors": "^0.1.0",
     "@angular/common": "^22.1.0",
     "@angular/compiler": "^22.1.0",
     "@angular/core": "^22.1.0",

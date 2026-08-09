@@ -32,6 +32,22 @@ export function createApp({ store }) {
     res.status(200).json({ status: 'ok' });
   });
 
+  // Browser-safe Onklave config for the client bundle: the error-tracking
+  // ingest key (rate-limited server-side; org/project resolve from the key on
+  // the platform, never from the page). 404s off-platform so the browser SDK
+  // stays off in local dev.
+  api.get('/onklave/config', (_req, res) => {
+    const key = process.env.ONKLAVE_ERRORS_INGEST_KEY;
+    if (!key) {
+      return res.status(404).json({ error: 'Not Found' });
+    }
+    res.json({
+      errorsIngestKey: key,
+      environment: process.env.ONKLAVE_ENV || null,
+      release: process.env.ONKLAVE_COMMIT_SHA || null,
+    });
+  });
+
   api.get('/items', async (_req, res, next) => {
     try {
       res.json(await store.list());
