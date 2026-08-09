@@ -1,4 +1,5 @@
 import express from 'express';
+import { OnklaveErrors } from '@onklave/errors';
 
 const MAX_NAME_LENGTH = 200;
 
@@ -62,9 +63,13 @@ export function createApp({ store }) {
 
   // Errors are logged server-side only. The response carries no message or
   // stack: a failed query would otherwise echo SQL, and a failed connection
-  // would echo the connection string.
-  app.use((err, _req, res, _next) => {
+  // would echo the connection string. The capture reports to Onklave error
+  // tracking (a no-op when not initialised).
+  app.use((err, req, res, _next) => {
     console.error(err);
+    OnklaveErrors.captureException(err, {
+      request: { method: req.method, path: req.path, statusCode: 500 },
+    });
     res.status(500).json({ error: 'Internal Server Error' });
   });
 

@@ -10,12 +10,14 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "test": "node --test",
-    "lint": "node --check src/app.js && node --check src/db.js && node --check src/server.js"
+    "lint": "node --check src/app.js && node --check src/db.js && node --check src/server.js && node --check src/onklave.js"
   },
   "engines": {
     "node": ">=22"
   },
   "dependencies": {
+    "@onklave/app-runtime": "^0.1.0",
+    "@onklave/errors": "^0.1.0",
     "express": "^5.2.1",
     "pg": "^8.22.0"
   }

@@ -1,5 +1,10 @@
 import { createApp } from './app.js';
 import { createPostgresStore, requireDatabaseUrl } from './db.js';
+import { initOnklave } from './onklave.js';
+
+// Platform wiring first: per-environment secrets (DATABASE_URL included) land
+// in process.env and error tracking starts. A no-op off-platform (local dev).
+await initOnklave(process.env['APP_NAME'] || 'template-fullstack-angular-api');
 
 const port = Number(process.env['PORT']) || 8080;
 
