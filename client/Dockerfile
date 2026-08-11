@@ -7,7 +7,7 @@
 # is the minimum Angular 22 accepts.
 
 # --- Build stage: compile the Angular app to dist/browser ---
-FROM node:24-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -17,7 +17,7 @@ RUN npm run build
 # --- Runtime stage ---
 # No node_modules at all: serve.js is dependency-free, so none of the Angular
 # toolchain — or its transitive tree — reaches production.
-FROM node:24-alpine AS runtime
+FROM node:26-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 
