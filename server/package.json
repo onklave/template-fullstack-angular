@@ -16,9 +16,9 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@onklave/app-runtime": "^0.1.0",
-    "@onklave/errors": "^0.1.0",
+    "@onklave/app-runtime": "^0.1.1",
+    "@onklave/errors": "^0.1.1",
     "express": "^5.2.1",
-    "pg": "^8.22.0"
+    "pg": "^8.23.0"
   }
 }
