@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@onklave/app-runtime": "^0.1.1",
-    "@onklave/errors": "^0.1.1",
+    "@onklave/errors": "^0.1.2",
     "express": "^5.2.1",
     "pg": "^8.23.0"
   }
