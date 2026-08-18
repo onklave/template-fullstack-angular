@@ -1,5 +1,9 @@
 # Dependabot: grouped weekly updates. This repo has no CI matrix to burn,
 # so keeping dependencies and base images current is nearly free.
+#
+# The corollary: nothing here verifies a bump either. Majors of packages that
+# other packages pin by peer range are therefore ignored below and handled as
+# deliberate migrations instead.
 version: 2
 updates:
   - package-ecosystem: npm
@@ -12,6 +16,14 @@ updates:
         patterns:
           - '*'
     open-pull-requests-limit: 2
+    ignore:
+      # No CI runs here by design (onklave.yaml gates the build in-cluster), so a
+      # grouped major lands unverified. TypeScript's major is pinned by peers --
+      # @angular/build declares an exact minor range and ts-node reads the
+      # compiler API -- and TS 7 (the Go-native rewrite) broke this fleet on
+      # 2026-08-18. A TypeScript major is a migration, not a dependency bump.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: npm
     directory: /server
     schedule:
@@ -22,6 +34,14 @@ updates:
         patterns:
           - '*'
     open-pull-requests-limit: 2
+    ignore:
+      # No CI runs here by design (onklave.yaml gates the build in-cluster), so a
+      # grouped major lands unverified. TypeScript's major is pinned by peers --
+      # @angular/build declares an exact minor range and ts-node reads the
+      # compiler API -- and TS 7 (the Go-native rewrite) broke this fleet on
+      # 2026-08-18. A TypeScript major is a migration, not a dependency bump.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: docker
     directory: /client
     schedule:
