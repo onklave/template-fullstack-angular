@@ -25,6 +25,11 @@ export async function initOnklave(): Promise<void> {
       environment: cfg.environment || 'development',
     });
     installGlobalHandlers();
+    // In-app feedback widget: renders ONLY when the project has end-user
+    // feedback enabled (portal → project → Feedback) — the widget probes the
+    // server itself. Lazy import so pages that never show it don't pay for it.
+    const { installFeedbackWidget } = await import('@onklave/errors/widget');
+    void installFeedbackWidget();
   } catch {
     // Never let telemetry break the page.
   }
